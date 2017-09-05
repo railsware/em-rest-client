@@ -32,7 +32,10 @@ RSpec.describe RestClient::EmHttpRequest do
               headers: {
                 'X-Token' => 'MyToken',
               },
-              body: 'name=John%20Doe&email=john.doe%40gmail.com'
+              body: {
+                'name' => 'John Doe',
+                'email' => 'john.doe@gmail.com'
+              }
             ).
             to_return(
               status: 201,

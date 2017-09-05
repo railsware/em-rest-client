@@ -152,7 +152,12 @@ RSpec.describe RestClient::EmHttpRequest do
           let(:max_redirects) { 1 }
 
           specify do
-            expect { subject }.to raise_error(RestClient::MaxRedirectsReached)
+            case RestClient.major_version
+            when 1
+              expect { subject }.to raise_error(RestClient::MaxRedirectsReached)
+            when 2
+              expect { subject }.to raise_error(RestClient::Found)
+            end
           end
         end
 
@@ -218,7 +223,7 @@ RSpec.describe RestClient::EmHttpRequest do
         end
 
         specify do
-          expect(subject.cookies).to eq(
+          expect(subject.cookies).to include(
             'new_session_id' => '2000'
           )
         end
@@ -241,8 +246,8 @@ RSpec.describe RestClient::EmHttpRequest do
             stub_request(:get, 'https://www.example.com/').
             with(
               headers: {
-                'Accept'=>'*/*; q=0.5, application/xml',
-                'Accept-Encoding'=>'gzip, deflate'
+                'Accept' => accept_header,
+                'Accept-Encoding' => 'gzip, deflate'
               }
             ).to_return(
               status: 200,
@@ -284,7 +289,7 @@ RSpec.describe RestClient::EmHttpRequest do
             stub_request(:get, 'https://www.example.com/').
             with(
               headers: {
-                'Accept'=>'*/*; q=0.5, application/xml',
+                'Accept' => accept_header,
                 'Accept-Encoding'=>'gzip, deflate'
               }
             ).to_return(

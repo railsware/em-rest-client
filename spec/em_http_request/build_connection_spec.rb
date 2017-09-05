@@ -50,7 +50,20 @@ RSpec.describe RestClient::EmHttpRequest do
       specify do
         expect(subject.connopts.inactivity_timeout).to eq(30)
       end
-    end
+    end if RestClient.major_version == 1
+
+    context 'read_timeout option given' do
+      let(:options) { {read_timeout: 30} }
+
+      specify do
+        expect(subject.connopts.connect_timeout).to eq(5)
+      end
+
+      specify do
+        expect(subject.connopts.inactivity_timeout).to eq(30)
+      end
+    end if RestClient.major_version == 2
+
 
     context 'global proxy option given' do
       before { RestClient.proxy = 'http://john:1234@proxy.example.com:3128' }
