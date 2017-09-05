@@ -5,10 +5,10 @@ RSpec.describe RestClient::EmHttpRequest do
   describe '#execute' do
     include_context :em_http_request_execute
 
-    context 'post' do
+    context 'put' do
       let(:args) do
         {
-          method: :post,
+          method: :put,
           url: 'https://www.example.com',
           headers: {
             'X-Token': 'MyToken'
@@ -27,12 +27,15 @@ RSpec.describe RestClient::EmHttpRequest do
 
         before do
           WebMock.
-            stub_request(:post, 'https://www.example.com/').
+            stub_request(:put, 'https://www.example.com/').
             with(
               headers: {
                 'X-Token' => 'MyToken',
               },
-              body: 'name=John%20Doe&email=john.doe%40gmail.com'
+              body: {
+                'name' => 'John Doe',
+                'email' => 'john.doe@gmail.com'
+              }
             ).
             to_return(
               status: 201,
@@ -66,7 +69,7 @@ RSpec.describe RestClient::EmHttpRequest do
 
         before do
           WebMock.
-            stub_request(:post, 'https://www.example.com/').
+            stub_request(:put, 'https://www.example.com/').
             with(
               headers: {
                 'X-Token' => 'MyToken',
