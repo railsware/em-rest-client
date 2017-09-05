@@ -1,19 +1,18 @@
 require 'spec_helper'
 
 RSpec.describe RestClient::EmHttpRequest do
-  let(:args) { {} }
-
-  let(:request) { described_class.new(args) }
 
   describe '#build_connection' do
+    subject { request.send :build_connection, uri }
+
+    let(:request) { described_class.new(args) }
+
+    let(:uri) { URI.parse('http://example.com') }
+
     let(:args) do
       {method: :get, url: 'https://www.google.com'}.merge(options)
     end
     let(:options) { {} }
-
-    subject { request.send :build_connection, uri }
-
-    let(:uri) { URI.parse('http://example.com') }
 
     context 'empty optional args' do
       specify do
