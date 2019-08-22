@@ -1,5 +1,11 @@
-# EM-REST-Client
 
+# !!! LEGACY PROJECT !!!
+
+Is not supported anymore because we renamed and migrated it to new project.
+
+Please use [rest-client-adapters](https://github.com/railsware/rest-client-adapters) instead.
+
+# EM-REST-Client
 
 This gem allows to use different HTTP implementation in RestClient with next adapters:
 
